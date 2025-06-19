@@ -51,3 +51,15 @@ export async function PUT(request: Request, segments:Segments) {
         return NextResponse.json({message:'Error al actualizar el todo.'}, {status:400})
     }
 }
+
+export async function DELETE(request:Request, segments:Segments) {
+    try {
+        const { id } = await segments.params;
+        await prisma.todo.delete({where:{id}});
+        return NextResponse.json({message:'Todo eliminado'}, {status:200})
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json({message:'Error al eliminar el todo.'}, {status:400})
+    }
+
+}

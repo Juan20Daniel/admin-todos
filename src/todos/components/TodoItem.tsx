@@ -26,7 +26,7 @@ export const TodoItem = ({todo, toggleTodo}:Props) => {
             }
         </div>
         <div className="text-center sm:test-left">
-          {todo.id}
+          {todo.description}
         </div>
       </div>
     </div>
