@@ -13,6 +13,11 @@ export const NewTodo = () => {
 
     await todosApi.createTodo(description);
     router.refresh();
+    setDescription('');
+  }
+  const deleteCompleted = async () => {
+    await todosApi.removeTodosCompleted();
+    router.refresh();
   }
   return (
     <form  className='flex w-full' onSubmit={onSubmit}>
@@ -22,18 +27,16 @@ export const NewTodo = () => {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
-      <button type='submit' className="flex items-center justify-center rounded ml-2 bg-sky-500 p-2 text-white hover:bg-sky-700 transition-all">
+      <button type='submit' className="flex items-center justify-center rounded ml-2 cursor-pointer bg-sky-500 p-2 text-white hover:bg-sky-700 transition-all">
         Crear
       </button>
       <span className='flex flex-1'></span>
       <button 
-        //TODO: onClick={ () => deleteCompleted() }
-        type='button' className="flex items-center justify-center rounded ml-2 bg-red-400 p-2 text-white hover:bg-red-700 transition-all">
+        onClick={ () => deleteCompleted() }
+        type='button' className="flex items-center justify-center rounded ml-2 gap-2 px-4 bg-red-400 py-2 text-white hover:bg-red-700 transition-all cursor-pointer">
         <IoTrashOutline />
-        Delete
+        Eliminar todos completos
       </button>
-
-
     </form>
   )
 }

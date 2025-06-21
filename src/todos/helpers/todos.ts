@@ -28,16 +28,17 @@ export const createTodo = async (description:string):Promise<Todo> => {
     return todo;
 }
 
-export const removeTodo = async (id:string):Promise<string | boolean> => {
+export const removeTodosCompleted = async ():Promise<string | boolean> => {
     try {
-        await fetch(`/api/todos/${id}`,{
+        const response = await fetch(`/api/todos`,{
             method:'DELETE',
             headers: {
                 "Content-Type":"application/json"
             }
         })
         .then(res => res.json());
-        return 'Todo elimunado';
+        console.log(response);
+        return response.message;
     } catch (error) {
         console.log(error);
         return false;
