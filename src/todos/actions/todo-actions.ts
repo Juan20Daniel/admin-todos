@@ -1,9 +1,10 @@
 'use server';
-import { PrismaClient, todo as Todo } from "@/generated/prisma";
+import { PrismaClient, todo } from "@/generated/prisma";
 import { revalidatePath } from "next/cache";
+
 const prisma = new PrismaClient();
 
-export const toggleTodo = async (id:string, complete:boolean): Promise<Todo> => {
+export const toggleTodo = async (id:string, complete:boolean): Promise<todo> => {
     const todo = await prisma.todo.findFirst({ where: {id} });
 
     if(!todo) {
@@ -17,4 +18,30 @@ export const toggleTodo = async (id:string, complete:boolean): Promise<Todo> => 
 
     revalidatePath('/dashboard/server-todos');
     return updatedTodo;
+}
+
+export const addTodo = async (description:string): Promise<todo> => {
+     try {
+        const newTodo = await prisma.todo.create({
+            data: {
+                description
+            }
+        });
+        revalidatePath('/dashboard/server-todos');
+        return newTodo;
+    } catch (error) {
+        console.log(error);
+        throw new Error('Algo salió mal al crear el todo.');
+    }
+}
+
+export const deleteCompleted = async ():Promise<boolean> => {
+    try {
+        await prisma.todo.deleteMany({where:{complete:true}});
+        revalidatePath('/dashboard/server-todos')
+        return true;
+    } catch (error) {
+        console.log(error);
+        throw new Error('Algo salió mal al eliminar los todos completados.');
+    }
 }
