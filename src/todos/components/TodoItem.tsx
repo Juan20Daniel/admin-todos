@@ -1,8 +1,8 @@
 'use client';
 import { todo as Todo } from "@/generated/prisma";
 import { IoCheckboxOutline, IoSquareOutline } from "react-icons/io5";
-import styles from './TodoItem.module.css';
 import {startTransition, useOptimistic} from 'react';
+import styles from './TodoItem.module.css';
 
 interface Props {
   todo:Todo;
