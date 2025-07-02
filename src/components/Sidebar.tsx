@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { CiLogout } from 'react-icons/ci';
-import { IoCalendarOutline, IoCheckboxOutline, IoListOutline } from 'react-icons/io5';
+import { IoBasketOutline, IoCalendarOutline, IoCardOutline, IoCarOutline, IoCheckboxOutline, IoListOutline } from 'react-icons/io5';
 import { SidebarItem } from './SidebarItem';
 
 export const Sidebar = () => {
@@ -44,13 +44,23 @@ export const Sidebar = () => {
                     path='/dashboard/server-todos'
                     label='Server actions'
                 />
+                <SidebarItem 
+                    icon={<IoListOutline size={20} />}
+                    path='/dashboard/cookies'
+                    label='Cookies'
+                />
+                <SidebarItem 
+                    icon={<IoBasketOutline size={20} />}
+                    path='/dashboard/products'
+                    label='Productos'
+                />
             </ul>
         </div>
 
         <div className="px-6 -mx-6 pt-4 flex justify-between items-center border-t">
             <button className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
-            <CiLogout />
-            <span className="group-hover:text-gray-700">Logout</span>
+                <CiLogout />
+                <span className="group-hover:text-gray-700">Logout</span>
             </button>
         </div>
     </aside>
