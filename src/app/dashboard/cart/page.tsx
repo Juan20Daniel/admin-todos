@@ -31,6 +31,13 @@ export default async function CartPage() {
     const cartTotal = JSON.parse(cookiesStore.get('cart')?.value??'{}') as {[id:string]:number};
 
     const productsInCart = getProductsInCart(cartTotal);
+
+    const totalToPay = productsInCart.reduce((preValue, currentValue) => {
+        return (currentValue.product.price * currentValue.quantity) + preValue
+    },0);
+
+    console.log(totalToPay);
+
     return (
         <div>
             <h1 className="text-5xl">Productos en el carrito</h1>
@@ -51,12 +58,12 @@ export default async function CartPage() {
                             <h3>Total:</h3>
                         </div>
                         <span>Impuesto 15%: $...</span> */}
-                        <h3 className="text-3xl font-bold text-gray-700">$23,988</h3>
+                        <h3 className="text-3xl font-bold text-gray-700">${(totalToPay * 1.15).toFixed(2)}</h3>
                         <div className="flex items-end gap-1 text-green-500">
-                        <svg className="w-3" viewBox="0 0 12 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M6.00001 0L12 8H-3.05176e-05L6.00001 0Z" fill="currentColor" />
-                        </svg>
-                        <span>2%</span>
+                            <svg className="w-3" viewBox="0 0 12 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6.00001 0L12 8H-3.05176e-05L6.00001 0Z" fill="currentColor" />
+                            </svg>
+                            <span>2%</span>
                         </div>
                     </WidgetItem>
                 </div>

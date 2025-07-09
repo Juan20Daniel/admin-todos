@@ -17,7 +17,7 @@ export const TabBar = ({defaultTapSelected=1, numOptions=4}:Props) => {
         setCookie('selectedTap', tap.toString());
     }
     return (
-        <div className={`grid w-full ${'grid-cols-'+tabOptions.length} space-x-2 rounded-xl bg-gray-200 p-2`}>
+        <div className={`grid w-full ${'grid-cols-4'} space-x-2 rounded-xl bg-gray-200 p-2`}>
             {tabOptions.map(option => (
                 <div key={option}>
                     <input 
