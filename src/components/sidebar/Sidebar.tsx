@@ -4,6 +4,7 @@ import { auth } from '~/auth';
 import { CiLogout } from 'react-icons/ci';
 import { IoBasketOutline, IoCalendarOutline, IoCheckboxOutline, IoListOutline, IoPersonOutline } from 'react-icons/io5';
 import { SidebarItem } from './SidebarItem';
+import { LogoutBotton } from './LogoutBotton';
 
 const defaultImg = "https://img.freepik.com/vector-gratis/ilustracion-simio-estilo-nft-dibujado-mano_23-2149622021.jpg?semt=ais_hybrid&w=740";
 
@@ -69,10 +70,7 @@ export const Sidebar = async () => {
             </div>
 
             <div className="px-6 -mx-6 pt-4 flex justify-between items-center border-t">
-                <button className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
-                    <CiLogout />
-                    <span className="group-hover:text-gray-700">Logout</span>
-                </button>
+                <LogoutBotton />
             </div>
         </aside>
     )
