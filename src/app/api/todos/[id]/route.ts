@@ -1,9 +1,7 @@
-import { PrismaClient, todo as Todo } from '@/generated/prisma';
+import { todo as Todo } from '@/generated/prisma';
+import { prisma } from '~/prisma';
 import { NextResponse } from 'next/server';
 import * as yup from 'yup';
-
-const prisma = new PrismaClient();
-
 interface Segments {
     params: Promise<{id:string}>
 }

@@ -1,8 +1,7 @@
-import { PrismaClient } from '@/generated/prisma'
 import { NextResponse } from 'next/server'
+import { prisma } from '~/prisma';
 
 export async function GET(request: Request) { 
-    const prisma = new PrismaClient();
     
     await prisma.todo.deleteMany();
 

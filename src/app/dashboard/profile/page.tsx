@@ -15,7 +15,9 @@ export default function ProfilePage() {
             <hr />
             <div className="flex flex-col gap-5">
                 <span>{data?.user?.name??'No hay nombre'}</span>
-                <span>{data?.user?.email??'No hay nombre'}</span>
+                <span>{data?.user?.email??'No hay email'}</span>
+                <span>{(data?.user?.roles??['user']).join(',')??'No hay roles'}</span>
+                <span>{data?.user?.id??'No hay id'}</span>
             </div>
         </div>
     );
