@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '~/prisma';
 import * as yup from 'yup';
+import { auth } from '~/auth';
 
 
 export async function GET(request: Request) { 
@@ -26,16 +27,22 @@ const postSchema = yup.object({
     complete:yup.boolean().optional().default(false)
 })
 
-export async function POST(request: Request) { 
+export async function POST(request: Request) {
+    const session = await auth();
+    if(!session?.user) {
+        return NextResponse.json('No autorizado', {status:401})
+    }
+    const { user } = session;
     try {
         const { description, complete } = await postSchema.validate(await request.json())
         const newTodo = await prisma.todo.create({
             data: {
                 description, 
-                complete
+                complete,
+                userId:user.id as string
             }
         });
-
+        
         return NextResponse.json({newTodo});
     } catch (error) {
         console.log(error);
@@ -44,8 +51,13 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE(request:Request) {
+     const session = await auth();
+    if(!session?.user) {
+        return NextResponse.json('No autorizado', {status:401})
+    }
+    const { user } = session;
     try {
-        await prisma.todo.deleteMany({where:{complete:true}});
+        await prisma.todo.deleteMany({where:{complete:true, userId:user.id}});
         return NextResponse.json({message:'Se eliminaron los todos completados.'}, {status:200})
     } catch (error) {
         console.log(error);

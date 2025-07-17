@@ -2,21 +2,31 @@ import { todo as Todo } from '@/generated/prisma';
 import { prisma } from '~/prisma';
 import { NextResponse } from 'next/server';
 import * as yup from 'yup';
+import { auth } from '~/auth';
 interface Segments {
     params: Promise<{id:string}>
 }
 
-const getTodo = async (segments:Segments): Promise<Todo> => {
+const getTodo = async (segments:Segments): Promise<Todo|null> => {
+    const session = await auth();
+    if(!session?.user) {
+       return null;
+    }
+    const user = session.user;
     const {id} = await segments.params;
     const todo = await prisma.todo.findFirst({
         where: { id }
     });
     if(!todo) throw new Error(`El todo con el id: ${id} no fue encontrado`);
 
+    if(todo.userId !== user.id) {
+        return null;
+    }
+
     return todo;
 }
 
-export async function GET(request: Request, segments:Segments) { 
+export async function GET(request: Request, segments:Segments) {
     try {
         const todo = await getTodo(segments);
 
@@ -35,6 +45,8 @@ const putSchema = yup.object({
 export async function PUT(request: Request, segments:Segments) { 
     try {
         const todo = await getTodo(segments);
+
+        if(!todo) return NextResponse.json('No fue posible actualizar el todo.', {status:404});
 
         //...rest por si nos interesa lo demas.
         const {description, complete } = await putSchema.validate(await request.json());

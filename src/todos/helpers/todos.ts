@@ -24,7 +24,6 @@ export const createTodo = async (description:string):Promise<Todo> => {
         }
     })
     .then(res => res.json());
-
     return todo;
 }
 
